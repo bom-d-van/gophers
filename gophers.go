@@ -59,7 +59,6 @@ Gophers runs scripts or commands concurrently and kills them when gophers was ki
 func kill(pses []ps.Process, pid int) {
 	extinct(pses, pid)
 
-	fmt.Printf("kill %d\n", pid)
 	ps, err := os.FindProcess(pid)
 	if err != nil {
 		fmt.Printf("failed to find process (%d): %s\n", pid, err)
@@ -75,6 +74,7 @@ func extinct(pses []ps.Process, pid int) {
 		if ps.PPid() != pid {
 			continue
 		}
+		fmt.Printf("kill %d (%s)\n", ps.Pid(), ps.Executable())
 		kill(pses, ps.Pid())
 	}
 }
